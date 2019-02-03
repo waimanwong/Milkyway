@@ -24,10 +24,38 @@ dotnet add <project_name>.csproj package <package_name>
 ``` 
 
 ## Docker
-Follow the instructions:
-https://docs.docker.com/engine/examples/dotnetcore/
+To build a docker image:
 
-## Kubernetes
+```bash
+cd <project_dir>
+docker build -t <image_name> .
+``` 
+To run a container from a docker image:
+
+```bash
+docker run -d -p 8080:80 --name <container_name> <image_name>
+```
+
+## Kubernetes (K8)
+
+### Local K8 cluster
+You can install minikube which is a Kubernetes cluster for a laptop configuration
+
+The basic commands are:
+``` bash
+minikube start
+minikube stop
+minikube delete
+```
+
+### K8 dashboard
+To access to Kubernetes dashboard:
+```bash
+kubectl proxy
+```
+
+If you encounter some issue, you may try to restart the minikube cluster.
+
 
 ## Istio
 
