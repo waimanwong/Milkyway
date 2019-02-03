@@ -54,6 +54,8 @@ To access to Kubernetes dashboard:
 kubectl proxy
 ```
 
+In a web browser open `http://localhost:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/cluster?namespace=default`
+
 If you encounter some issue, you may try to restart the minikube cluster.
 
 
