@@ -16,6 +16,13 @@ Milkyway is playground for discovering:
 - Install Minikube (kubernetes cluster to be run on laptop)
 - Install Istio
 
+## ASP Net Core
+
+To add a package:
+```
+dotnet add <project_name>.csproj package <package_name>
+``` 
+
 ## Docker
 Follow the instructions:
 https://docs.docker.com/engine/examples/dotnetcore/
