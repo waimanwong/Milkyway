@@ -46,24 +46,77 @@ To run a container from a docker image:
 docker run -d -p 8080:80 --name <container_name> <image_name>
 ```
 
+Kubernetes needs a private local repository. The following commands creates a local repository
+```bash
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+docker tag <image_name> localhost:5000/<image_name>
+docker push localhost:5000/<image>
+```
+
+
 ## Kubernetes (K8)
 
-### MicroK8
-MicroK8 is a K8 package which includes istio. 
+### Minikube
+Minikube is a single node kubernetes cluster.
 
-To install MicroK8:
+You can install Minikube on Linux by downloading a static binary:
 ```bash
-sudo snap install microk8s --classic
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
 ```
-Then enable the services:
-```bash
-microk8s.enable dashboard registry istio proxy ...
-``` 
+Here’s an easy way to add the Minikube executable to your path:
 
-To access Kuerbetes dashboard:
 ```bash
-kubectl proxy
+sudo cp minikube /usr/local/bin && rm minikube
 ```
 
-Then open the dashboard : http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+To start minikube:
+```bash 
+sudo minikube start --vm-driver none
+```
+The flag --vm-driver none means that minike is not run in a virutalized server.
 
+To start kubernetes dashboard:
+```bash
+sudo minikube dashboard
+```
+The command shoudl open the browser at the dashboard url.
+You may encounter issue with xdg-open. In this case, you need to browse to the printed url on stdout.
+
+### Deployment yaml file
+
+A kubernetes deployment file describes the docker container to deploy and the expected state. 
+The following is a sample kubernetes deployment file where the container is replicated 3 times.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webservice1-deployment
+  labels:
+    app: webservice1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webservice1
+  template:
+    metadata:
+      labels:
+        app: webservice1
+    spec:
+      containers:
+      - name: webservice1
+        image: localhost:5000/webservice1
+        ports:
+        - containerPort: 80
+```
+
+To create the deployment in kubernetes:
+```bash
+kubectl create -f <deployment_file_path>
+```
+
+To check the created deployments:
+```bash
+kubectl get deployments
+```
