@@ -21,8 +21,12 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-o
 - Install Kubernetes CLI
 https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-with-snap-on-ubuntu
 
-- Install Microk8 (kubernetes cluster to be run on laptop)
-https://microk8s.io/
+- Install Minikube
+
+- Install MetalLB
+
+https://metallb.universe.tf/installation/
+https://metallb.universe.tf/tutorial/minikube/
 
 - Install Istio
 
@@ -77,10 +81,15 @@ The flag --vm-driver none means that minike is not run in a virutalized server.
 
 To start kubernetes dashboard:
 ```bash
-sudo minikube dashboard
+sudo minikube dashboard --url
 ```
-The command shoudl open the browser at the dashboard url.
-You may encounter issue with xdg-open. In this case, you need to browse to the printed url on stdout.
+The dashboard is displayed on screen.
+
+### MetalLB
+```bash
+kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml
+```
+
 
 ### Deployment yaml file
 
