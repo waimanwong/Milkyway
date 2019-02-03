@@ -10,10 +10,20 @@ Milkyway is playground for discovering:
 
 ## Setup
 - Install vscode
-- Install aspnetcore sdk
+https://code.visualstudio.com/docs/setup/linux
+
+- Install .NET core sdk (depends on your linux distribution)
+https://dotnet.microsoft.com/download/linux-package-manager/ubuntu18-04/sdk-current
+
 - Install Docker
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
+
 - Install Kubernetes CLI
-- Install Minikube (kubernetes cluster to be run on laptop)
+https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-with-snap-on-ubuntu
+
+- Install Microk8 (kubernetes cluster to be run on laptop)
+https://microk8s.io/
+
 - Install Istio
 
 ## ASP Net Core
@@ -38,26 +48,22 @@ docker run -d -p 8080:80 --name <container_name> <image_name>
 
 ## Kubernetes (K8)
 
-### Local K8 cluster
-You can install minikube which is a Kubernetes cluster for a laptop configuration
+### MicroK8
+MicroK8 is a K8 package which includes istio. 
 
-The basic commands are:
-``` bash
-minikube start
-minikube stop
-minikube delete
+To install MicroK8:
+```bash
+sudo snap install microk8s --classic
 ```
+Then enable the services:
+```bash
+microk8s.enable dashboard registry istio proxy ...
+``` 
 
-### K8 dashboard
-To access to Kubernetes dashboard:
+To access Kuerbetes dashboard:
 ```bash
 kubectl proxy
 ```
 
-In a web browser open `http://localhost:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/cluster?namespace=default`
-
-If you encounter some issue, you may try to restart the minikube cluster.
-
-
-## Istio
+Then open the dashboard : http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
 
