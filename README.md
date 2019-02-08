@@ -30,6 +30,10 @@ https://metallb.universe.tf/tutorial/minikube/
 
 - Install Istio
 
+https://istio.io/docs/setup/kubernetes/
+
+- Install socat
+
 ## ASP Net Core
 
 To add a package:
@@ -60,6 +64,9 @@ docker push localhost:5000/<image>
 
 ## Kubernetes (K8)
 
+Here are a list of solutions to run a Kubernetes cluster on the local machine: https://kubernetes.io/docs/setup/pick-right-solution/#local-machine-solutions
+
+
 ### Minikube
 Minikube is a single node kubernetes cluster.
 
@@ -86,9 +93,14 @@ sudo minikube dashboard --url
 The dashboard is displayed on screen.
 
 ### MetalLB
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml
 ```
+
+Then follow the instructions to set the load balancer in minikube:
+
+https://metallb.universe.tf/tutorial/minikube/
 
 
 ### Deployment yaml file
