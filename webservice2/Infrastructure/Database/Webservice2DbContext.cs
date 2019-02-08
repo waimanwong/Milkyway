@@ -38,7 +38,7 @@ namespace webservice2
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=webservice2;User Id=sa;Password=paris=75;MultipleActiveResultSets=True;App=Authentication");
+                optionsBuilder.UseSqlServer(@"Data Source=10.0.2.15,31979;Initial Catalog=webservice2;User Id=sa;Password=paris=75;MultipleActiveResultSets=True;App=Authentication");
             }
         }
 
