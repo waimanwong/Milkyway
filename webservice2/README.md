@@ -58,3 +58,10 @@ Then apply the changes to the database:
 ```
 dotnet ef database update
 ```
+
+## Nuget package manager
+
+To install a nuget package
+```bash
+dotnet add package <package_name>
+``` 

@@ -12,6 +12,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using webservice2.Domain.Users;
 using Microsoft.EntityFrameworkCore;
+using webservice2.Infrastucture.Database;
+using Swashbuckle.AspNetCore.Swagger;
+
 
 namespace webservice2
 {
@@ -21,7 +24,7 @@ namespace webservice2
         {
             Configuration = configuration;
 
-            
+
         }
 
         public IConfiguration Configuration { get; }
@@ -31,10 +34,15 @@ namespace webservice2
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             services.AddDbContext<IWebservice2DbContext, Webservice2DbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("webservice2")), ServiceLifetime.Scoped);
-        
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "webservice2", Version = "v1" });
+            });
 
         }
 
@@ -52,6 +60,17 @@ namespace webservice2
             }
 
             app.UseHttpsRedirection();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseMvc();
         }
     }

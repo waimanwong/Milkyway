@@ -1,7 +1,19 @@
 using System.Threading.Tasks;
+using webservice2.Domain;
 
 namespace webservice2.Domain.Users 
 {
+    public class UserNotFoundException : DomainException
+    {
+        public UserNotFoundException(long id) : base($"User {id.ToString()} not found") 
+        { }
+    }
+
+    public class UserRegistrationForm
+    {
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+    }
 
     public class User
     {
@@ -12,12 +24,16 @@ namespace webservice2.Domain.Users
 
     public interface IUserService 
     {
-        Task RegisterUser(User user);
+        Task RegisterUser(UserRegistrationForm user);
+
+        Task<User> GetUserById(long id);
     }
 
     public interface IUserRepository
     {
         Task Add(User user);
+
+        Task<User> GetById(long id);
     }
 
     public class UserService : IUserService
@@ -29,9 +45,23 @@ namespace webservice2.Domain.Users
             this._userRepository = userRepository;
         }
 
-        public Task RegisterUser(User user)
+        public Task RegisterUser(UserRegistrationForm userRegistrationForm)
         {
+
+            //TODO Validate the form
+
+            //Ok let's register the user
+            var user = new User 
+            {
+                Firstname = userRegistrationForm.Firstname,
+                Lastname = userRegistrationForm.Lastname
+            };
             return _userRepository.Add(user);
+        }
+
+        public Task<User> GetUserById(long id)
+        {
+            return _userRepository.GetById(id);
         }
     }
 }

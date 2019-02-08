@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using webservice2.Domain.Users;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Threading.Tasks;
 
 namespace webservice2
 {
@@ -10,13 +12,13 @@ namespace webservice2
     {
         DbSet<User> Users { get; }
 
-        void Commit();
+        Task Save();
     }
 
     public class Webservice2DbContext : DbContext, IWebservice2DbContext
     {
 
-        public DbSet<User> Users { get; }
+        public DbSet<User> Users { get; set; }
         
         public Webservice2DbContext()
         {
@@ -27,11 +29,11 @@ namespace webservice2
         {
         }
 
-        public void Commit()
+        public Task Save()
         {
-            this.Commit();
-        }  
-        
+            return base.SaveChangesAsync();
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -43,6 +45,17 @@ namespace webservice2
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
+
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+        }        
+    }
+
+    public class UserConfiguration : IEntityTypeConfiguration<User>
+    {
+        public void Configure(EntityTypeBuilder<User> builder)
+        {
+            builder.HasKey(u => u.Id);
+            builder.Property(u => u.Id).ValueGeneratedOnAdd();
         }
     }
 }

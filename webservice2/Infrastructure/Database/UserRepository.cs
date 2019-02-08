@@ -1,5 +1,6 @@
 using webservice2.Domain.Users;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace webservice2.Infrastucture.Database 
 {
@@ -15,7 +16,19 @@ namespace webservice2.Infrastucture.Database
         public async Task Add(User user)
         {
             await _dbContext.Users.AddAsync(user);
-            _dbContext.Commit();
+            await _dbContext.Save();
+        }
+
+        public async Task<User> GetById(long id)
+        {
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == id);
+
+            if(user == null)
+            {
+                throw new UserNotFoundException(id);
+            }
+
+            return user;
         }
     }
 }
