@@ -13,16 +13,9 @@ docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=<sa_password>' -p 1433:1433 -d mic
 ```  
 
 ## SQL Client
-Dbeaver seems to be popular: https://dbeaver.io
-
-Azure Data Studio is gaining momentum so let's gor for it :https://docs.microsoft.com/en-us/sql/azure-data-studio/
-
-To run Azure Data Studio:
-```bash
-azuredatastudio
-```
-
-You may install the extension `newdatabase` to create a database from a simple click
+The different alternatives:
+- Dbeaver seems to be popular: https://dbeaver.io
+- Azure Data Studio is a new player :https://docs.microsoft.com/en-us/sql/azure-data-studio/
 
 ## Scaffolding Entity Framework core
 
